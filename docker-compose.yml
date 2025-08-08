@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: secureflow
+      POSTGRES_PASSWORD: secureflow
+      POSTGRES_DB: secureflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./evidencias/db_logs:/var/log/postgresql
+    command: >
+      postgres -c logging_collector=on
+               -c log_statement=all
+               -c log_directory='/var/log/postgresql'
+               -c log_filename='postgresql-%Y-%m-%d_%H%M%S.log'
+  app:
+    build: ./app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/secureflow
+      SPRING_DATASOURCE_USERNAME: secureflow
+      SPRING_DATASOURCE_PASSWORD: secureflow
+      LOG_FILE: /logs/secureflow-app.log
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./evidencias/app_logs:/logs
+  nginx:
+    build: ./nginx
+    depends_on:
+      - app
+      - web
+    ports:
+      - "8081:80"
+    volumes:
+      - ./evidencias/nginx_logs:/var/log/nginx
+  web:
+    build: ./web
+    depends_on:
+      - app
+    ports:
+      - "5173:5173"
+volumes:
+  pgdata:

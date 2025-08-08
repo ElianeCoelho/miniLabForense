@@ -1,0 +1,13 @@
+{
+  "name": "secureflow-rif",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "postCreateCommand": "docker compose up -d --build",
+  "forwardPorts": [
+    5173,
+    8080,
+    5432,
+    8081
+  ]
+}
