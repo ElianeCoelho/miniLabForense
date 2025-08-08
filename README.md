@@ -1,4 +1,4 @@
-# SecureFlow – Mini-laboratório de RIF (Resposta a Incidentes e Forense)
+# Mini-laboratório de RIF (Resposta a Incidentes e Forense)
 
 > Ambiente **100% em nuvem (GitHub Codespaces)** para treinar cenários de incidentes: força-bruta, SQLi controlado e upload EICAR; com coleta de evidências via logs de app/DB/Nginx e selagem por SHA-256.
 
